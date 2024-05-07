@@ -8,13 +8,7 @@ function inicializarChat() {
     mensajeInicial.textContent = "Chatbot: ¡Hola! Estoy aquí para ayudarte. ¿Cómo puedo asistirte hoy?";
     listaMensajes.appendChild(mensajeInicial);
     desplazarHaciaAbajo();
-
-    // Simulando un retraso de tipeo del chatbot antes de hacer la primera pregunta
-    setTimeout(() => {
-        enviarMensajeAPI("¿Puedo saber tu nombre?", "Chatbot");
-    }, 2000); // Retraso de 2 segundos
 }
-
 // Esta función se llama cuando la ventana se carga para iniciar el chat
 window.onload = inicializarChat;
 
