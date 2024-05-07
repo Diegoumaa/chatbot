@@ -5,20 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot para Psicología</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <header>
-        <h1>CHATBOT PARA PSICOLOGÍA INICIAL</h1>
-    </header>
-    <div id="chat-container">
-        <div id="chat-box">
-            <ul id="messages"></ul>
+        <h1>Chatbot para Psicología Inicial</h1>
+        <div class="auth-buttons">
+            <span id="usernameDisplay" style="color: white; margin-right: 10px; display: none;"></span>
+            <button id="loginBtn">Login</button>
+            <button id="registerBtn">Registro</button>
+            <button id="logoutBtn" style="display: none;">Logout</button>
         </div>
-        <input type="text" id="user-input" placeholder="Escribe algo aquí..." />
-        <button onclick="enviarMensaje()">Enviar</button>
+    </header>
+    
+    <main>
+           
+<div id="loginModal" class="modal">
+    <!-- Contenido del Modal Login -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Login</h2>
+        <input type="text" placeholder="Usuario">
+        <input type="password" placeholder="Contraseña">
+        <button onclick="login()">Iniciar sesión</button>
     </div>
+</div>
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Registro</h2>
+        <input type="text" placeholder="Usuario">
+        <input type="password" placeholder="Contraseña">
+        <button onclick="register()">Registrarse</button>
+    </div>
+</div>
+        <div id="chat-container">
+            <div id="chat-box">
+                <ul id="messages"></ul>
+            </div>
+            <div id="input-container">
+                <input type="text" id="user-input" placeholder="Escribe algo aquí..." />
+                <button onclick="enviarMensaje()">Enviar</button>
+            </div>
+        </div>
+    </main>
     <footer>
-        <p>© 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
     </footer>
     <script src="script.js"></script>
 </body>

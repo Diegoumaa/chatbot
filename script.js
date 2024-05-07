@@ -1,5 +1,5 @@
-// Variable global para rastrear los pasos de la conversación
 let paso = 0;
+let usuariosRegistrados = JSON.parse(localStorage.getItem('usuariosRegistrados')) || {};
 
 // Función para inicializar el chat con un saludo automático
 function inicializarChat() {
@@ -8,9 +8,38 @@ function inicializarChat() {
     mensajeInicial.textContent = "Chatbot: ¡Hola! Estoy aquí para ayudarte. ¿Cómo puedo asistirte hoy?";
     listaMensajes.appendChild(mensajeInicial);
     desplazarHaciaAbajo();
+    setupModalListeners();
+    verificarUsuarioLogueado();
 }
+// Establece todos los eventos necesarios cuando la página se carga
+document.addEventListener('DOMContentLoaded', inicializarChat);
+function setupModalListeners() {
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        document.getElementById('loginModal').style.display = 'block';
+    });
+
+    document.getElementById('registerBtn').addEventListener('click', function() {
+        document.getElementById('registerModal').style.display = 'block';
+    });
+
+    document.querySelectorAll('.close').forEach(function(element) {
+        element.addEventListener('click', function() {
+            this.parentElement.parentElement.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    });
+
+    // Agregar evento onclick para el botón de logout
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+}
+
 // Esta función se llama cuando la ventana se carga para iniciar el chat
-window.onload = inicializarChat;
+
 
 // Agrega soporte para enviar mensajes con la tecla Enter
 document.getElementById('user-input').addEventListener('keypress', function(event) {
@@ -90,4 +119,66 @@ function actualizarChat(emisor, mensaje) {
 function desplazarHaciaAbajo() {
     const cajaChat = document.getElementById('chat-box');
     cajaChat.scrollTop = cajaChat.scrollHeight;
+}
+function register() {
+    var usuario = document.querySelector('#registerModal input[type="text"]').value;
+    var contraseña = document.querySelector('#registerModal input[type="password"]').value;
+    if (!usuario || !contraseña) {
+        alert('Por favor, ingresa un usuario y contraseña.');
+        return;
+    }
+    if (usuariosRegistrados[usuario]) {
+        alert('Este usuario ya está registrado.');
+        return;
+    }
+    usuariosRegistrados[usuario] = contraseña;
+    localStorage.setItem('usuariosRegistrados', JSON.stringify(usuariosRegistrados));
+    document.getElementById('registerModal').style.display = 'none';
+    alert('Registro exitoso, ahora puedes iniciar sesión.');
+}
+
+function login() {
+    var usuario = document.querySelector('#loginModal input[type="text"]').value;
+    var contraseña = document.querySelector('#loginModal input[type="password"]').value;
+    if (!usuario || !contraseña) {
+        alert('Por favor, ingresa tu usuario y contraseña.');
+        return;
+    }
+    if (usuariosRegistrados[usuario] && usuariosRegistrados[usuario] === contraseña) {
+        localStorage.setItem('username', usuario);
+        updateUserStatus(usuario);
+        document.getElementById('loginModal').style.display = 'none';
+        toggleAuthButtons(true);
+    } else {
+        alert('Usuario o contraseña incorrectos.');
+    }
+}
+
+function logout() {
+    localStorage.removeItem('username');
+    updateUserStatus();
+    toggleAuthButtons(false);
+}
+function verificarUsuarioLogueado() {
+    var storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+        updateUserStatus(storedUsername);
+        toggleAuthButtons(true);
+    } else {
+        toggleAuthButtons(false);
+    }
+}
+function toggleAuthButtons(loggedIn) {
+    document.getElementById('loginBtn').style.display = loggedIn ? 'none' : 'inline-block';
+    document.getElementById('registerBtn').style.display = loggedIn ? 'none' : 'inline-block';
+    document.getElementById('logoutBtn').style.display = loggedIn ? 'inline-block' : 'none';
+}
+function updateUserStatus(username) {
+    var display = document.getElementById('usernameDisplay');
+    if (username) {
+        display.textContent = 'Hola, ' + username;
+        display.style.display = 'inline';
+    } else {
+        display.style.display = 'none';
+    }
 }
