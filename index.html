@@ -6,6 +6,7 @@
     <title>Chatbot para Psicología</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -21,26 +22,25 @@
     </header>
     
     <main>
-           
-<div id="loginModal" class="modal">
-    <!-- Contenido del Modal Login -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Login</h2>
-        <input type="text" placeholder="Usuario">
-        <input type="password" placeholder="Contraseña">
-        <button onclick="login()">Iniciar sesión</button>
-    </div>
-</div>
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Registro</h2>
-        <input type="text" placeholder="Usuario">
-        <input type="password" placeholder="Contraseña">
-        <button onclick="register()">Registrarse</button>
-    </div>
-</div>
+        <div id="loginModal" class="modal">
+            <!-- Contenido del Modal Login -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+                <input type="text" placeholder="Usuario">
+                <input type="password" placeholder="Contraseña">
+                <button onclick="login()">Iniciar sesión</button>
+            </div>
+        </div>
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Registro</h2>
+                <input type="text" placeholder="Usuario">
+                <input type="password" placeholder="Contraseña">
+                <button onclick="register()">Registrarse</button>
+            </div>
+        </div>
         <div id="chat-container">
             <div id="chat-box">
                 <ul id="messages"></ul>
@@ -54,6 +54,99 @@
     <footer>
         <p>&copy; 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- Agrega los scripts de Firebase -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDp5rWvASiH8hE0Vaw65-JrRZ8GAX6d31A",
+            authDomain: "chatbot-96367.firebaseapp.com",
+            projectId: "chatbot-96367",
+            storageBucket: "chatbot-96367.appspot.com",
+            messagingSenderId: "984507203682",
+            appId: "1:984507203682:web:0f01cb494bbde88cd0913b",
+            measurementId: "G-NPE5W60N19"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // Funciones de autenticación y base de datos
+        window.register = function() {
+            const usuario = document.querySelector('#registerModal input[type="text"]').value;
+            const contraseña = document.querySelector('#registerModal input[type="password"]').value;
+
+            if (!usuario || !contraseña) {
+                alert('Por favor, ingresa un usuario y contraseña.');
+                return;
+            }
+
+            // Crear un nuevo usuario en Firebase Authentication
+            createUserWithEmailAndPassword(auth, usuario, contraseña)
+                .then((userCredential) => {
+                    // Guardar los datos del usuario en la base de datos
+                    const user = userCredential.user;
+                    set(ref(database, 'usuarios/' + user.uid), {
+                        username: usuario,
+                        email: user.email
+                    });
+                    alert('Registro exitoso, ahora puedes iniciar sesión.');
+                    document.getElementById('registerModal').style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Error al registrar:', error.message);
+                    alert('Error al registrar: ' + error.message);
+                });
+        };
+
+        window.login = function() {
+            const usuario = document.querySelector('#loginModal input[type="text"]').value;
+            const contraseña = document.querySelector('#loginModal input[type="password"]').value;
+
+            if (!usuario || !contraseña) {
+                alert('Por favor, ingresa tu usuario y contraseña.');
+                return;
+            }
+
+            // Autenticar el usuario en Firebase
+            signInWithEmailAndPassword(auth, usuario, contraseña)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    alert('Login exitoso. Bienvenido ' + user.email);
+                    updateUserStatus(user.email);
+                    document.getElementById('loginModal').style.display = 'none';
+                    toggleAuthButtons(true);
+                })
+                .catch((error) => {
+                    console.error('Error al iniciar sesión:', error.message);
+                });
+        };
+
+        window.logout = function() {
+            signOut(auth)
+                .then(() => {
+                    alert('Has cerrado sesión.');
+                    updateUserStatus();
+                    toggleAuthButtons(false);
+                })
+                .catch((error) => {
+                    console.error('Error al cerrar sesión:', error.message);
+                });
+        };
+    </script>
+
+    <!-- Tu script personalizado -->
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="chatbot.js"></script>
+    
 </body>
 </html>

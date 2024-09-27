@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@firebasegen/default": "file:generated/javascript/default",
     "axios": "^1.6.8"
   }
 }
