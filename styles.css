@@ -1,15 +1,23 @@
+:root {
+    --primary-color: #5cb85c; 
+    --secondary-color: #375b2c; 
+    --text-color: #333;
+    --background-color: #f8f9fa; 
+    --card-background: #fff;
+}
+
 body, html {
     height: 100%;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+    font-family: 'Poppins', sans-serif; 
+    background-color: var(--background-color); 
+    color: var(--text-color); 
     display: flex;
     flex-direction: column;
 }
 
 header {
-    background-color: #6c63ff;
+    background-color: var(--primary-color); 
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -17,14 +25,28 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+
 .auth-buttons {
     display: flex;
     align-items: center;
 }
 
 .auth-buttons button {
-    margin-left: 10px; /* Asegura espaciado entre botones */
+    margin-left: 10px; 
+    padding: 8px 16px;
+    background-color: #fff; 
+    color: var(--primary-color); 
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
 }
+
+.auth-buttons button:hover {
+    background-color: var(--secondary-color); 
+    color: #fff;
+}
+
 header h1 {
     margin: 0;
     font-size: 28px;
@@ -73,8 +95,8 @@ main {
 #input-container {
     display: flex;
     padding: 20px;
-    background-color: #f8f8f8;
-    border-top: 1px solid #eee;
+    background-color: #f8f8f8; 
+    border-top: 1px solid #eee; 
 }
 
 input[type="text"], button {
@@ -90,31 +112,18 @@ input[type="text"] {
 }
 
 button {
-    background-color: #6c63ff;
+    background-color: var(--primary-color); 
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease; 
 }
 
 button:hover {
-    background-color: #524dff;
-}
-button:active {
-    transform: scale(0.95);
-}
-.auth-buttons button {
-    margin: 0 10px;
-    padding: 8px 16px;
-    background-color: #fff;
-    color: #6c63ff;
-    border: 1px solid #6c63ff;
-    border-radius: 5px;
-    cursor: pointer;
+    background-color: var(--secondary-color); 
 }
 
-.auth-buttons button:hover {
-    background-color: #6c63ff;
-    color: #fff;
+button:active {
+    transform: scale(0.95);
 }
 
 .modal {
@@ -133,7 +142,7 @@ button:active {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #888; 
     width: 80%;
     max-width: 450px;
     border-radius: 10px;
@@ -141,7 +150,7 @@ button:active {
 }
 
 .modal-content h2 {
-    color: #333;
+    color: var(--text-color); 
 }
 
 .modal-content input {
@@ -150,11 +159,11 @@ button:active {
     margin-top: 8px;
     margin-bottom: 16px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; 
 }
 
 .close {
-    color: #aaa;
+    color: #aaa; 
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -162,7 +171,7 @@ button:active {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: var(--text-color);
     text-decoration: none;
     cursor: pointer;
 }
