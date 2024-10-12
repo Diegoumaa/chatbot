@@ -12,7 +12,12 @@
         <div class="container">
             <h1>Chatbot para Psicología Inicial</h1>
             <nav>
-                <ul>
+                <div class="menu-icon" id="menu-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul id="nav-list">
                     <li><a href="#services">Servicios</a></li>
                     <li><a href="#about-us">Acerca de</a></li>
                     <li><a href="#specialists">Especialistas</a></li>
@@ -23,53 +28,150 @@
         </div>
     </header>
     <main>
-        <section class="hero">
+        <!-- Sección de héroe con efecto parallax -->
+        <section class="hero" id="hero">
             <div class="container">
                 <div class="hero-content">
                     <h2>¿Te sientes desanimado? Déjanos cambiar eso.</h2>
                     <p>Bienvenido a nuestra plataforma de intervención psicológica inicial. Nos comprometemos con tu bienestar mental y queremos ofrecerte un espacio seguro que te brinde apoyo y orientación desde el primer momento.</p>
                     <a href="#services" class="btn">Ver Servicios</a>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg" alt="Imagen de psicología">
+            </div>
+        </section>
+
+        <!-- Sección interactiva de servicios -->
+        <section id="services" class="section animate">
+            <div class="container">
+                <h2>Nuestros Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="card-content">
+                            <h3>Terapia Individual</h3>
+                            <p>Ofrecemos sesiones personalizadas para ayudarte a enfrentar tus desafíos personales.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-content">
+                            <h3>Orientación Familiar</h3>
+                            <p>Fortalece las relaciones familiares y mejora la comunicación en el hogar.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-content">
+                            <h3>Asesoramiento en Línea</h3>
+                            <p>Accede a nuestros servicios desde la comodidad de tu hogar en cualquier momento.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="about-us" class="section">
+        <!-- Sección "Acerca de nosotros" -->
+        <section id="about-us" class="section animate">
             <div class="container">
                 <h2>Acerca de nosotros</h2>
                 <p>Nuestro equipo de profesionales de la psicología ha colaborado estrechamente para asegurarse de que cada intervención y contenido sea relevante, basado en evidencia científica y adaptado a tus necesidades específicas. A través de nuestra plataforma, podrás acceder a herramientas de autoevaluación, materiales educativos y sesiones de orientación personalizada, todo diseñado para promover tu bienestar mental y emocional.</p>
             </div>
         </section>
 
-        <section id="specialists" class="section">
+        <!-- Sección mejorada "Juega y Aprende" -->
+        <section id="play-and-learn" class="section animate">
+            <div class="container">
+                <h2>Juega y Aprende</h2>
+                <p>Responde estas preguntas y descubre más sobre ti mismo.</p>
+                <div class="quiz">
+                    <div class="question">
+                        <p id="quiz-question"></p>
+                        <div id="quiz-options"></div>
+                    </div>
+                    <button class="btn" id="next-question" style="display:none;">Siguiente Pregunta</button>
+                    <div id="quiz-feedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección "Preguntas Frecuentes" actualizada -->
+        <section id="faq" class="section animate">
+            <div class="container">
+                <h2>Preguntas Frecuentes</h2>
+                <div class="faq-item">
+                    <button class="faq-question">¿Cómo funciona el chatbot?</button>
+                    <div class="faq-answer">
+                        <p>El chatbot está diseñado para brindarte apoyo inmediato y responder a tus consultas básicas sobre nuestros servicios.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">¿Es confidencial la información que comparto?</button>
+                    <div class="faq-answer">
+                        <p>Sí, toda la información que compartes con nosotros es totalmente confidencial y está protegida.</p>
+                    </div>
+                </div>
+                <!-- Nuevas preguntas frecuentes -->
+                <div class="faq-item">
+                    <button class="faq-question">¿Cómo puedo agendar una cita?</button>
+                    <div class="faq-answer">
+                        <p>Puedes agendar una cita a través de nuestro sitio web o contactando a nuestro equipo de soporte.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">¿Ofrecen servicios para niños y adolescentes?</button>
+                    <div class="faq-answer">
+                        <p>Sí, contamos con especialistas en psicología infantil y adolescente.</p>
+                    </div>
+                </div>
+                <!-- Puedes añadir más preguntas si lo deseas -->
+            </div>
+        </section>
+
+        <!-- Sección "Especialistas" con carrusel -->
+        <section id="specialists" class="section animate">
             <div class="container">
                 <h2>Nuestros especialistas</h2>
-                <div class="specialist-cards">
-                    <div class="card">
+                <div class="specialist-carousel">
+                    <!-- Tarjetas de especialistas -->
+                    <div class="specialist-card">
                         <img src="https://images.pexels.com/photos/3184408/pexels-photo-3184408.jpeg" alt="Jorge Pérez">
                         <h3>Jorge Pérez</h3>
                         <p>Especialista en salud mental</p>
                     </div>
-                    <div class="card">
+                    <div class="specialist-card">
+                        <img src="https://images.pexels.com/photos/3184408/pexels-photo-3184408.jpeg" alt="Jorge Pérez">
+                        <h3>Jorge Pérez</h3>
+                        <p>Especialista en salud mental</p>
+                    </div>
+                    <div class="specialist-card">
+                        <img src="https://images.pexels.com/photos/3184408/pexels-photo-3184408.jpeg" alt="Jorge Pérez">
+                        <h3>Jorge Pérez</h3>
+                        <p>Especialista en salud mental</p>
+                    </div>
+                    <div class="specialist-card">
+                        <img src="https://images.pexels.com/photos/3184408/pexels-photo-3184408.jpeg" alt="Jorge Pérez">
+                        <h3>Jorge Pérez</h3>
+                        <p>Especialista en salud mental</p>
+                    </div>
+                    <div class="specialist-card">
                         <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="Sor Juana">
                         <h3>Sor Juana</h3>
                         <p>Especialista en salud mental</p>
                     </div>
-                    <div class="card">
+                    <div class="specialist-card">
                         <img src="https://images.pexels.com/photos/3184408/pexels-photo-3184408.jpeg" alt="Taylor West">
                         <h3>Taylor West</h3>
                         <p>Especialista en salud mental</p>
                     </div>
                 </div>
+                <div class="carousel-controls">
+                    <button id="prev-specialist" class="btn">&lt;</button>
+                    <button id="next-specialist" class="btn">&gt;</button>
+                </div>
             </div>
         </section>
 
-        <section id="testimonials" class="section">
+        <!-- Sección "Testimonios" con carrusel -->
+        <section id="testimonials" class="section animate">
             <div class="container">
                 <h2>Testimonios</h2>
-                <div class="testimonial-cards">
+                <div class="testimonial-slider">
                     <div class="testimonial">
                         <p>"El servicio ha sido increíble. Me siento mucho mejor gracias al apoyo constante."</p>
                         <h4>- María López</h4>
@@ -83,6 +185,10 @@
                         <h4>- Ana Gómez</h4>
                     </div>
                 </div>
+                <div class="testimonial-controls">
+                    <button id="prev-testimonial" class="btn">&lt;</button>
+                    <button id="next-testimonial" class="btn">&gt;</button>
+                </div>
             </div>
         </section>
     </main>
@@ -91,6 +197,20 @@
             <p>&copy; 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <!-- Chatbot emergente con respuestas predefinidas -->
+    <div class="chatbot-icon" id="chatbot-icon">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Chatbot">
+    </div>
+    <div class="chatbot-popup" id="chatbot-popup">
+        <div class="chatbot-header">
+            <h3>Chatbot</h3>
+            <span id="close-chatbot">&times;</span>
+        </div>
+        <div class="chatbot-content" id="chatbot-content">
+            <!-- Mensajes del chatbot -->
+        </div>
+    </div>
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
