@@ -1,10 +1,13 @@
-// Verifica si la app de Firebase ya está inicializada antes de inicializarla nuevamente
+// auth.js
+
+// Importa los módulos necesarios de Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
 
 console.log("auth.js cargado");
 
+// Tu configuración de Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDp5rWvASiH8hE0Vaw65-JrRZ8GAX6d31A",
     authDomain: "chatbot-96367.firebaseapp.com",
@@ -15,8 +18,16 @@ const firebaseConfig = {
     appId: "1:984507203682:web:0f01cb494bbde88cd0913b",
     measurementId: "G-NPE5W60N19"
 };
+document.getElementById('loginBtn').addEventListener('click', function () {
+    document.getElementById('loginModal').style.display = 'block';
+    document.getElementById('login-usuario').focus();
+});
 
-// Inicializa Firebase solo si no está ya inicializada
+document.getElementById('registerBtn').addEventListener('click', function () {
+    document.getElementById('registerModal').style.display = 'block';
+    document.getElementById('register-usuario').focus();
+});
+// Inicializa Firebase
 let app;
 if (!getApps().length) {
     app = initializeApp(firebaseConfig);

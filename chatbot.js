@@ -1,3 +1,5 @@
+// chatbot.js
+
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai";
@@ -30,6 +32,38 @@ Si la situación parece grave, sugiere contactar a un profesional de salud y pro
 Mantén la conversación dentro del contexto de apoyo emocional.
 `;
 
+// Variable para almacenar el historial de la conversación
+let historial = [];
+
+// Función para animar la respuesta del chatbot
+function animarRespuesta(emisor, mensaje) {
+    const listaMensajes = document.getElementById('messages');
+    const elementoMensaje = document.createElement('li');
+    elementoMensaje.classList.add('chatbot-message');
+    listaMensajes.appendChild(elementoMensaje);
+    desplazarHaciaAbajo();
+
+    let i = 0;
+    const speed = 0; // Ajusta la velocidad si lo deseas
+
+    // Sanitiza el mensaje para evitar XSS
+    const mensajeSeguro = DOMPurify.sanitize(mensaje);
+
+    // Añadir el emisor y empezar a mostrar el mensaje
+    elementoMensaje.innerHTML = `<strong>${emisor}:</strong> `;
+
+    function typeWriter() {
+        if (i < mensajeSeguro.length) {
+            elementoMensaje.innerHTML += mensajeSeguro.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+            desplazarHaciaAbajo();
+        }
+    }
+    typeWriter();
+}
+
+
 // Función para generar contenido y enviar el mensaje de respuesta
 async function enviarMensajeAPI(mensaje, role, oculto = false) {
     mostrarIndicadorDeEscritura(true);
@@ -40,17 +74,26 @@ async function enviarMensajeAPI(mensaje, role, oculto = false) {
 
     try {
         // Combina las instrucciones con el mensaje del usuario
-        const prompt = oculto ? mensaje : `${instrucciones}\nUsuario: ${mensaje}\nChatbot:`;
+        if (!oculto) {
+            historial.push({ role: 'user', content: mensaje });
+        }
+        const prompt = `${instrucciones}\n${historial.map(h => `${h.role === 'user' ? 'Usuario' : 'Chatbot'}: ${h.content}`).join('\n')}\nChatbot:\n${mensaje}`;
+
         const result = await model.generateContent(prompt);
         let responseText = await result.response.text();
 
         // Post-procesamiento para eliminar cualquier referencia no deseada
         responseText = filtrarRespuesta(responseText);
 
+        // Añadir la respuesta al historial
+        historial.push({ role: 'assistant', content: responseText });
+
         mostrarIndicadorDeEscritura(false);
 
         if (!oculto) {
-            actualizarChat('Chatbot', responseText);
+            animarRespuesta('Chatbot', responseText);
+        } else {
+            animarRespuesta('Chatbot (Diagnóstico)', responseText);
         }
 
         // Guarda las instrucciones o el mensaje en Firestore
@@ -86,10 +129,7 @@ function filtrarRespuesta(respuesta) {
 document.addEventListener('DOMContentLoaded', inicializarChat);
 
 function inicializarChat() {
-    const listaMensajes = document.getElementById('messages');
-    const mensajeInicial = document.createElement('li');
-    mensajeInicial.textContent = "Chatbot: ¡Hola! Estoy aquí para ayudarte como tu terapeuta virtual. ¿Cómo te sientes hoy?";
-    listaMensajes.appendChild(mensajeInicial);
+    animarRespuesta('Chatbot', "¡Hola! Estoy aquí para ayudarte como tu terapeuta virtual. ¿Cómo te sientes hoy?");
     desplazarHaciaAbajo();
     setupEventListeners();
 }
@@ -100,7 +140,7 @@ function mostrarIndicadorDeEscritura(mostrar) {
 
     if (mostrar && !typingIndicator) {
         const typingMessage = document.createElement('li');
-        typingMessage.className = 'typing-indicator';
+        typingMessage.className = 'typing-indicator chatbot-message';
         typingMessage.innerHTML = 'Chatbot está escribiendo<span>.</span><span>.</span><span>.</span>';
         listaMensajes.appendChild(typingMessage);
     } else if (!mostrar && typingIndicator) {
@@ -112,6 +152,11 @@ function actualizarChat(emisor, mensaje) {
     const listaMensajes = document.getElementById('messages');
     const elementoMensaje = document.createElement('li');
     elementoMensaje.innerHTML = `${emisor}: ${mensaje}`;
+    if (emisor === 'Tú') {
+        elementoMensaje.classList.add('user-message');
+    } else {
+        elementoMensaje.classList.add('chatbot-message');
+    }
     listaMensajes.appendChild(elementoMensaje);
     desplazarHaciaAbajo();
 }
@@ -124,6 +169,7 @@ function desplazarHaciaAbajo() {
 function setupEventListeners() {
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
+    const diagnosticButton = document.getElementById('diagnostic-button');
 
     userInput.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
@@ -132,6 +178,7 @@ function setupEventListeners() {
     });
 
     sendButton.addEventListener('click', enviarMensaje);
+    diagnosticButton.addEventListener('click', solicitarDiagnostico);
 }
 
 function enviarMensaje() {
@@ -142,6 +189,21 @@ function enviarMensaje() {
         actualizarChat('Tú', mensaje);
         enviarMensajeAPI(mensaje, "user");
     }
+}
+
+function solicitarDiagnostico() {
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const diagnosticButton = document.getElementById('diagnostic-button');
+
+    // Deshabilitar input y botones para evitar más interacciones
+    userInput.disabled = true;
+    sendButton.disabled = true;
+    diagnosticButton.disabled = true;
+
+    // Enviar un mensaje oculto al chatbot para obtener el resumen
+    const mensajeOculto = `Basado en la conversación anterior, proporciona un resumen para el usuario, osea lo que hemos escrito, dame un resumen porfavor tienes que acordarte, ademas porfavor que sea largo y tecnico para un psicologo.`;
+    enviarMensajeAPI(mensajeOculto, "user", true);
 }
 
 function manejarErrores(error) {
@@ -155,3 +217,7 @@ function manejarErrores(error) {
         actualizarChat('Chatbot', "Error al procesar la respuesta. Por favor, revisa la consola para más detalles.");
     }
 }
+
+// Exponer funciones al ámbito global si usas onclick en el HTML
+window.enviarMensaje = enviarMensaje;
+window.solicitarDiagnostico = solicitarDiagnostico;
