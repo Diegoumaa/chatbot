@@ -40,12 +40,15 @@ const database = getDatabase(app);
 
 // Función para registrar un nuevo usuario y guardar los datos en Realtime Database
 window.register = function () {
-    console.log("Función de registro iniciada");
     const usuario = document.querySelector('#registerModal input[type="text"]').value;
     const contraseña = document.querySelector('#registerModal input[type="password"]').value;
 
     if (!usuario || !contraseña) {
-        alert('Por favor, ingresa un usuario y contraseña.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campos Vacíos',
+            text: 'Por favor, ingresa un usuario y contraseña.'
+        });
         return;
     }
 
@@ -56,23 +59,35 @@ window.register = function () {
                 username: usuario,
                 email: user.email
             });
-            alert('Registro exitoso, ahora puedes iniciar sesión.');
+            Swal.fire({
+                icon: 'success',
+                title: '¡Registro Exitoso!',
+                text: 'Ahora puedes iniciar sesión.'
+            });
             document.getElementById('registerModal').style.display = 'none';
         })
         .catch((error) => {
             console.error('Error al registrar:', error.message);
-            alert('Error al registrar: ' + error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al Registrar',
+                text: error.message
+            });
         });
 };
 
 // Función para iniciar sesión con Firebase Authentication
 window.login = function () {
     console.log("Función de inicio de sesión iniciada");
-    const usuario = document.querySelector('#loginModal input[type="text"]').value;
-    const contraseña = document.querySelector('#loginModal input[type="password"]').value;
+    const usuario = document.getElementById('login-usuario').value;
+    const contraseña = document.getElementById('login-contraseña').value;
 
     if (!usuario || !contraseña) {
-        alert('Por favor, ingresa tu usuario y contraseña.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campos Vacíos',
+            text: 'Por favor, ingresa tu usuario y contraseña.'
+        });
         return;
     }
 
@@ -80,37 +95,60 @@ window.login = function () {
         .then((userCredential) => {
             const user = userCredential.user;
             console.log('Usuario logueado:', user);
-            alert('Login exitoso. Bienvenido ' + user.email);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Inicio de Sesión Exitoso!',
+                text: 'Bienvenido ' + user.email
+            });
             updateUserStatus(user);
             toggleAuthButtons(true);
             document.getElementById('loginModal').style.display = 'none';
         })
         .catch((error) => {
             console.error('Error al iniciar sesión:', error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al Iniciar Sesión',
+                text: error.message
+            });
         });
 };
+
 
 // Función para cerrar sesión
 window.logout = function () {
     console.log("Función de cerrar sesión iniciada");
     signOut(auth)
         .then(() => {
-            alert('Has cerrado sesión.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Sesión Cerrada',
+                text: 'Has cerrado sesión exitosamente.'
+            });
             updateUserStatus();
             toggleAuthButtons(false);
         })
         .catch((error) => {
             console.error('Error al cerrar sesión:', error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al Cerrar Sesión',
+                text: error.message
+            });
         });
 };
-
+document.getElementById('logoutBtn').addEventListener('click', function () {
+    logout();
+});
 // Función para actualizar el estado del usuario en la interfaz
 function updateUserStatus(user = null) {
     const display = document.getElementById('usernameDisplay');
     if (user) {
-        display.textContent = `Hola, ${user.email}`;
+        // Extraer el nombre de usuario antes del '@'
+        const username = user.email.split('@')[0];
+        display.textContent = `Hola, ${username}`;
         display.style.display = 'inline';
-        console.log('Mostrando correo en la interfaz:', user.email);
+        console.log('Mostrando nombre de usuario en la interfaz:', username);
     } else {
         display.style.display = 'none';
     }
