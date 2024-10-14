@@ -1,12 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle del menú móvil
-    const menuIcon = document.getElementById('menu-icon');
-    const navList = document.querySelector('nav');
-
-    menuIcon.addEventListener('click', function() {
-        navList.classList.toggle('show');
-    });
-
     // Animaciones al hacer scroll
     const sections = document.querySelectorAll('.animate');
 

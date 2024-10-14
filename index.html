@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Chatbot para Psicología</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Fuente de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <!-- jQuery -->
@@ -17,29 +19,50 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.3/dist/purify.min.js"></script>
-<!-- SweetAlert2 CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .auth-buttons button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            color: #6C63FF;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-
-    <header>
-        <h1>Chatbot para Psicología Inicial</h1>
-        <div class="auth-buttons">
-            <button onclick="window.location.href='home.html'">Inicio</button>
-            <span id="usernameDisplay" style="color: white; margin-right: 10px; display: none;"></span>
-            <button id="loginBtn">Login</button>
-            <button id="registerBtn">Registro</button>
-            <button id="logoutBtn" style="display: none;">Logout</button>
+    <header style="background-color: #6C63FF; color: white; padding: 20px;">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Título a la izquierda -->
+            <h1 style="margin: 0;">Chatbot para Psicología Inicial</h1>
+            
+            <!-- Menús de autenticación a la derecha -->
+            <div class="auth-buttons">
+                <button onclick="window.location.href='home.html'">Inicio</button>
+                <span id="usernameDisplay" style="color: white; margin-right: 10px; display: none;"></span>
+                <button id="loginBtn">Login</button>
+                <button id="registerBtn">Registro</button>
+                <button id="logoutBtn" style="display: none;">Logout</button>
+            </div>
         </div>
     </header>
     
-    <main>
-     <!-- Modal de Login -->
+    <main class="container-fluid mt-4">
+
+         <!-- Modal de Login -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -73,26 +96,25 @@
     </div>
 </div>
 
+
         <!-- Contenedor del Chat -->
-        <div id="chat-container">
-            <div id="chat-box">
-                <ul id="messages"></ul>
+        <div id="chat-container" class="card mx-auto" style="max-width: 700px;">
+            <div id="chat-box" class="card-body overflow-auto" style="height: 400px;">
+                <ul id="messages" class="list-unstyled mb-0"></ul>
             </div>
-            <div id="input-container">
-                <input type="text" id="user-input" placeholder="Escribe algo aquí..." />
-                <button id="send-button"><i class="material-icons">send</i></button>
-                <button id="diagnostic-button"><i class="material-icons">assessment</i></button>
-                
+            <div id="input-container" class="card-footer d-flex flex-column flex-md-row">
+                <input type="text" id="user-input" class="form-control mb-2 mb-md-0 mr-md-2" placeholder="Escribe algo aquí..." />
+                <button id="send-button" class="btn btn-primary mr-md-2"><i class="material-icons">send</i></button>
+                <button id="diagnostic-button" class="btn btn-secondary"><i class="material-icons">assessment</i></button>
             </div>
         </div>
     </main>
-    <footer>
-        <p>&copy; 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
+    <footer style="background-color: #6C63FF; color: white; text-align: center; padding: 10px 0;">
+        <p style="margin: 0;">&copy; 2024 Chatbot para Psicología. Todos los derechos reservados.</p>
     </footer>
 
     <!-- Tu script personalizado -->
     <script type="module" src="auth.js"></script>
     <script type="module" src="chatbot.js"></script>
-    
 </body>
 </html>

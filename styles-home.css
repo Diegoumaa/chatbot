@@ -6,6 +6,8 @@
     --background-color: #f8f9fa;
     --card-background: #fff;
     --transition-speed: 0.3s;
+    --accent-color: #FFC107; /* Amarillo */
+
 }
 
 body {
@@ -24,40 +26,24 @@ body {
 }
 
 /* Estilos del header */
-header {
-    background-color: #fff;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.navbar {
+    font-size: 1.2em;
 }
 
-header h1 {
-    font-size: 24px;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0;
+.navbar-brand {
+    font-weight: bold;
 }
 
-nav {
-    display: inline-block;
-    vertical-align: middle;
-    float: right;
+.navbar-nav .nav-link {
+    margin-right: 1em;
 }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
+.btn-danger {
+    background-color: #FF5F5F;
+    border-color: #FF5F5F;
+    padding: 5px 20px;
+    border-radius: 20px;
 }
-
-nav li {
-    margin-left: 30px;
-}
-
 nav a, nav button {
     color: var(--text-color);
     text-decoration: none;
@@ -66,7 +52,7 @@ nav a, nav button {
 }
 
 nav a:hover, nav button:hover {
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 header nav button {
@@ -82,11 +68,7 @@ header nav button {
 }
 
 header nav button:hover {
-    background-color: var(--primary-color);
-}
-
-.menu-icon {
-    display: none;
+    background-color: var(--accent-color);
 }
 
 /* Animaciones */
@@ -454,7 +436,6 @@ footer {
     }
 
     .menu-icon {
-        display: block;
         cursor: pointer;
     }
 
@@ -481,4 +462,22 @@ footer {
         flex-direction: column;
         align-items: center;
     }
+}
+.navbar {
+    font-size: 1.2em;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 1em;
+}
+
+.btn-danger {
+    background-color: #FF5F5F;
+    border-color: #FF5F5F;
+    padding: 5px 20px;
+    border-radius: 20px;
 }
